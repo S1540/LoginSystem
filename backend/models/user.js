@@ -1,5 +1,10 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/loginAndSignup");
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
 const userSchema = mongoose.Schema({
   username: String,
   email: String,

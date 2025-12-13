@@ -5,6 +5,45 @@ import animationData2 from "../assets/Robot-Bot 3D.json";
 
 const LoginPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+  });
+
+  const handleOnChange = (e) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(userData),
+      });
+      const data = await response.json();
+      console.log(data);
+      setUserData({
+        username: "",
+        email: "",
+        password: "",
+        confirmpassword: "",
+      });
+      setIsSignUp(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="bg-zinc-800 min-h-screen flex items-center justify-center p-4">
       {/* Main Container */}
@@ -74,31 +113,50 @@ const LoginPage = () => {
           <span className="font-medium block mb-6 text-zinc-600">
             Your Data is Safe & Secure
           </span>
-          <div className="flex flex-col gap-4">
+          <form onSubmit={handleSignUp} className="flex flex-col gap-4">
             <input
               type="text"
+              name="username"
+              required
+              value={userData.username}
+              onChange={handleOnChange}
               placeholder="Username"
               className="outline-none border border-zinc-900 px-4 py-2 rounded-sm focus:border-cyan-400"
             />
             <input
               type="email"
+              name="email"
+              required
+              value={userData.email}
+              onChange={handleOnChange}
               placeholder="Email"
               className="outline-none border border-zinc-900 px-4 py-2 rounded-sm focus:border-cyan-400"
             />
             <input
+              onChange={handleOnChange}
               type="password"
+              name="password"
+              required
+              value={userData.password}
               placeholder="Password"
               className="outline-none border border-zinc-900 px-4 py-2 rounded-sm focus:border-cyan-400"
             />
             <input
               type="password"
+              name="confirmpassword"
+              required
+              value={userData.confirmpassword}
+              onChange={handleOnChange}
               placeholder="Confirm Password"
               className="outline-none border border-zinc-900 px-4 py-2 rounded-sm focus:border-cyan-400"
             />
-            <button className="bg-cyan-400 px-4 py-2 rounded-full hover:bg-cyan-500 transition-colors font-medium cursor-pointer">
+            <button
+              type="submit"
+              className="bg-cyan-400 px-4 py-2 rounded-full hover:bg-cyan-500 transition-colors font-medium cursor-pointer"
+            >
               Sign Up
             </button>
-          </div>
+          </form>
           <div className="text-center text-sm  ">
             <span className="text-xs font-medium">Or</span>
           </div>
