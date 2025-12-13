@@ -11,6 +11,39 @@ const LoginPage = () => {
     password: "",
     confirmpassword: "",
   });
+  const [userLoginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleLoginChange = (e) => {
+    setLoginData({
+      ...userLoginData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(userLoginData),
+      });
+      const data = await response.json();
+      console.log(data.message);
+      setLoginData({
+        email: "",
+        password: "",
+      });
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleOnChange = (e) => {
     setUserData({
@@ -62,21 +95,32 @@ const LoginPage = () => {
           <span className="font-medium block mb-6 text-zinc-600">
             Your Data is Safe & Secure
           </span>
-          <div className="flex flex-col gap-4">
+          <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
             <input
               type="email"
+              name="email"
+              required
+              value={userLoginData.email}
+              onChange={handleLoginChange}
               placeholder="Email"
               className="outline-none border border-zinc-900 px-4 py-2 rounded-sm focus:border-pink-500"
             />
             <input
               type="password"
+              name="password"
+              required
+              value={userLoginData.password}
+              onChange={handleLoginChange}
               placeholder="Password"
               className="outline-none border border-zinc-900 px-4 py-2 rounded-sm focus:border-pink-500"
             />
-            <button className="bg-linear-to-br from-pink-500 to-red-500 px-4 py-2 rounded-full hover:bg-cyan-600 transition-colors font-medium cursor-pointer">
+            <button
+              type="submit"
+              className="bg-linear-to-br from-pink-500 to-red-500 px-4 py-2 rounded-full hover:bg-cyan-600 transition-colors font-medium cursor-pointer"
+            >
               Login
             </button>
-          </div>
+          </form>
           <div className="text-center text-sm  ">
             <span className="text-xs font-medium">Or</span>
           </div>

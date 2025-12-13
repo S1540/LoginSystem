@@ -40,8 +40,25 @@ app.post("/signup", (req, res) => {
       const token = jwt.sign({ email: email }, "secret");
       res.cookie("email", token);
       console.log(token);
-      res.status(200).json({ message: "User Created Successfully" });
+      res.status(200).json({ message: "Signup successful pls login..." });
     });
+  });
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const exsitUser = await user.findOne({ email });
+  console.log(exsitUser);
+
+  bcrypt.compare(password, exsitUser.password, (err, result) => {
+    if (result) {
+      const token = jwt.sign({ email: email }, "secret");
+      res.cookie("email", token);
+      console.log(token);
+      res.status(200).json({ message: "Login successful" });
+    } else {
+      res.status(400).json({ message: "Login failed" });
+    }
   });
 });
 

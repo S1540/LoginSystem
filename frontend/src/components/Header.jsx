@@ -22,12 +22,9 @@ const Header = () => {
           </ul>
         </nav>
         <Link to={"/login"}>
-          <a
-            href=""
-            className="py-2 px-10 bg-blue-500 rounded-md hover:bg-blue-600 cursor-pointer transition-all duration-300 ease-in-out"
-          >
+          <button className="py-2 px-10 bg-blue-500 rounded-md hover:bg-blue-600 cursor-pointer transition-all duration-300 ease-in-out">
             Login
-          </a>
+          </button>
         </Link>
       </header>
     </>
