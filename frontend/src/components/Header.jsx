@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <>
-      <header className="bg-black/90 py-6 px-6 text-white flex flex-row justify-between items-center">
+      <header className="bg-black/90 py-6 px-6 text-white flex flex-row justify-between items-center overflow-hidden">
         <div>
           <h1 className="text-3xl font-bold">Login System</h1>
         </div>
-        <nav>
+        <nav className="hidden md:block">
           <ul className="flex flex-row gap-3">
             <li>
               <a href="#">Home</a>
